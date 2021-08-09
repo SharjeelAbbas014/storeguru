@@ -26,3 +26,19 @@ func addProduct(svc *dynamodb.Client, productId string, storeId string, title st
 	}
 	svc.PutItem(context.TODO(), &dynamodb.PutItemInput{TableName: &tableName, Item: av})
 }
+
+func getProduct(svc *dynamodb.Client, productId string) Product {
+	tableName := "products"
+
+	produc := map[string]string{
+		"ProductId": productId,
+	}
+	av, _ := attributevalue.MarshalMap(produc)
+	res, err := svc.GetItem(context.TODO(), &dynamodb.GetItemInput{TableName: &tableName, Key: av})
+	if err != nil {
+		fmt.Println(err)
+	}
+	product := Product{}
+	attributevalue.UnmarshalMap(res.Item, &product)
+	return product
+}
