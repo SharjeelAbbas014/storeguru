@@ -1,6 +1,6 @@
 package main
 
 func initializeRoutes() {
-	router.GET("/", addProductHandle)
+	router.POST("/", addProductHandle)
 	router.GET("/search", getProductHandle)
 }
