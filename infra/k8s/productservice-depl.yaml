@@ -1,0 +1,35 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: productservice-depl
+spec:
+  selector:
+    matchLabels:
+      app: productservice
+  template:
+    metadata:
+      labels:
+        app: productservice
+    spec:
+      containers:
+      - name: myapp
+        image: sharjeel/productservice
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+
+--- 
+apiVersion: v1
+kind: Service
+metadata:
+  name: productservice-srv
+spec: 
+  selector:
+    app: productservice
+  ports:
+    - name: productservice
+      protocol: TCP
+      port: 8080
+      targetPort: 8080

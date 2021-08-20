@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 	"net/http"
 
@@ -9,9 +8,11 @@ import (
 )
 
 func addProductHandle(c *gin.Context) {
-	// svc := engageDynamo()
-	bs, _ := json.Marshal(c.Request.PostForm)
-	fmt.Println(string(bs))
+	svc := engageDynamo()
+	var prod Product
+	c.BindJSON(&prod)
+	fmt.Println(prod)
+	addProduct(svc, prod.ProductId, prod.StoreId, prod.Title, prod.Price, prod.Tag, prod.Quantity, prod.LocationN)
 	c.IndentedJSON(http.StatusOK, "result: Success")
 }
 

@@ -12,19 +12,22 @@ type Product struct {
 	ProductId string
 	StoreId   string
 	Title     string
-	Price     float32
+	Price     string
 	Tag       string
+	Quantity  string
+	LocationN string
 }
 
-func addProduct(svc *dynamodb.Client, productId string, storeId string, title string, price float32, tag string) {
+func addProduct(svc *dynamodb.Client, productId string, storeId string, title string, price string, tag string, quantity string, location string) {
 	tableName := "products"
-	produc := Product{ProductId: productId, StoreId: storeId, Title: title, Price: price, Tag: tag}
+	produc := Product{ProductId: productId, StoreId: storeId, Title: title, Price: price, Tag: tag, Quantity: quantity, LocationN: location}
 	av, err := attributevalue.MarshalMap(produc)
 
 	if err != nil {
 		fmt.Println(err)
 	}
 	svc.PutItem(context.TODO(), &dynamodb.PutItemInput{TableName: &tableName, Item: av})
+
 }
 
 func getProduct(svc *dynamodb.Client, productId string) Product {
